@@ -1,0 +1,102 @@
+id: example_csv_content_type_migration
+label: 'Migrate example content type from CSV'
+migration_group: example_csv
+migration_tags:
+  - example_csv_migration
+dependencies:
+  enforced:
+    module:
+    # By adding the module that provided this migration/configuration here, it
+    # will be removed when the module is uninstalled.
+    - example_csv_update
+source:
+  plugin: csv
+  path: example_csv_update/does_not_exist.csv
+  ids: [nid]
+  header_offset: 0
+  fields:
+    -
+      name: nid
+      label: nid
+    -
+      name: content_langcode
+      label: 'content langcode'
+    -
+      name: title
+      label: Title
+    -
+      name: body
+      label: body
+    -
+      name: misc
+      label: misc
+    -
+      name: tid
+      label: tid
+    -
+      name: term_name
+      label: 'taxonomy reference'
+    -
+      name: term_langcode
+      label: 'term langcode'
+process:
+  nid:
+    - plugin: entity_lookup
+      source: nid
+      entity_type: node
+      value_key: nid
+      bundle_key: type
+      bundle: example_content_type
+    - plugin: skip_on_empty
+      method: row
+      message: 'nid not found.'
+  title:
+    - plugin: get
+      source: title
+      language:
+        - plugin: get
+          source: content_langcode
+    - plugin: transliteration
+  body/value:
+    - plugin: get
+      source: body
+      language:
+        - plugin: get
+          source: content_langcode
+    - plugin: transliteration
+  body/format:
+    plugin: default_value
+    default_value: plain_text
+  misc/value:
+    - plugin: get
+      source: misc
+      language:
+        - plugin: get
+          source: content_langcode
+    - plugin: transliteration
+  misc/format:
+    plugin: default_value
+    default_value: plain_text
+  taxonomy_reference:
+    plugin: entity_lookup
+    entity_type: taxonomy_term
+    source: tid
+    value_key: tid
+    bundle_key: vid
+    bundle: example_taxonomy
+  langcode:
+    - plugin: skip_on_value
+      source: content_langcode
+      method: row
+      value: en
+  content_translation_source:
+    - plugin: default_value
+      default_value: en
+destination:
+  plugin: 'entity:node'
+  default_bundle: example_content_type
+  translations: true
+migration_dependencies:
+  required:
+    - example_csv_term_migration
+  optional: []

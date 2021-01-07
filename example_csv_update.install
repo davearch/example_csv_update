@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * Implements hook_install.
+ *
+ * @return void
+ */
+function example_csv_update_install() {
+  //$migrate_config = \Drupal::config('migrate_plus.migration_group.example_csv');
+  //$map_data = \Drupal::database()->query('select * from migrate_map_example_csv_term_migration');
+  //$content_map_data = \Drupal::database()->query('select * from migrate_map_example_csv_content_type_migration');
+}
+/**
+ * Implements hook_uninstall.
+ *
+ * @return void
+ */
+function example_csv_update_uninstall() {
+  //\Drupal::database()->query("DELETE FROM {migrate_map_example_csv_term_migration}");
+  $config = \Drupal::service('config.factory')->getEditable('migrate_plus.migration_group.example_csv');
+  $config->delete();
+  $db = \Drupal::database();
+  $db->query('delete from {migrate_map_example_csv_term_migration}');
+  $db->query('delete from {migrate_map_example_csv_content_type_migration}');
+  drupal_flush_all_caches();
+}

@@ -1,0 +1,10 @@
+type: module
+name: Example CSV Update
+description: Example Module to Export CSV from Views and also Update Nodes from CSV
+package: Migration
+core_version_requirement: ^8 || ^9
+dependencies:
+  - drupal:migrate
+  - migrate_source_csv:migrate_source_csv
+  - views_data_export:views_data_export
+  - migrate_source_ui:migrate_source_ui

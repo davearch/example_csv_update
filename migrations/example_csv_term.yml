@@ -1,0 +1,69 @@
+id: example_csv_term_migration
+label: 'Migrate term translations from CSV'
+migration_group: example_csv
+migration_tags:
+  - example_csv_migration
+dependencies:
+  enforced:
+    module:
+    - example_csv_update
+source:
+  plugin: csv
+  path: example_csv_update/does_not_exist.csv
+  ids: [tid]
+  header_offset: 0
+  fields:
+    -
+      name: nid
+      label: nid
+    -
+      name: content_langcode
+      label: 'content langcode'
+    -
+      name: title
+      label: Title
+    -
+      name: body
+      label: body
+    -
+      name: misc
+      label: misc
+    -
+      name: tid
+      label: tid
+    -
+      name: term_name
+      label: 'taxonomy reference'
+    -
+      name: term_langcode
+      label: 'term langcode'
+process:
+  tid:
+    - plugin: entity_lookup
+      entity_type: taxonomy_term
+      value_key: tid
+      bundle_key: vid
+      bundle: example_taxonomy
+      source: tid
+    - plugin: skip_on_empty
+      method: row
+      message: 'tid not found.'
+  name:
+    - plugin: get
+      source: term_name
+      language:
+        - plugin: get
+          source: term_langcode
+    - plugin: transliteration
+  langcode:
+    - plugin: skip_on_value
+      source: term_langcode
+      method: row
+      value: en
+  content_translation_source:
+    - plugin: default_value
+      default_value: en
+destination:
+  plugin: 'entity:taxonomy_term'
+  default_bundle: 'example taxonomy'
+  translations: true
