@@ -29,6 +29,8 @@ function example_csv_update_migrate_prepare_row(Row $row, MigrateSourceInterface
       if (!$row->hasSourceProperty($field)) {
         throw new MigrateSkipRowException('Missing translatable text field.', TRUE);
       }
+      // encode each field to avoid SQL format errors.
+      $row->setSourceProperty($field, utf8_encode($row->getSourceProperty($field)));
     }
   }
 }

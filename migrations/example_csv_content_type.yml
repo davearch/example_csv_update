@@ -55,18 +55,15 @@ process:
   title:
     - plugin: get
       source: title
-    - plugin: transliteration
   body/value:
     - plugin: get
       source: body
-    - plugin: transliteration
   body/format:
     plugin: default_value
     default_value: plain_text
   field_misc/value:
     - plugin: get
       source: misc
-    - plugin: transliteration
   field_misc/format:
     plugin: default_value
     default_value: plain_text

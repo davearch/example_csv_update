@@ -54,7 +54,6 @@ process:
   name:
     - plugin: get
       source: term_name
-    - plugin: transliteration
   content_translation_source:
     - plugin: default_value
       default_value: en
@@ -65,5 +64,5 @@ destination:
   translations: true
   overwrite_properties:
     - name
-  #run entity and field validation before saving an entity
+  # run entity and field validation before saving an entity
   validate: true
