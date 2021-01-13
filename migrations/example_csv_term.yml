@@ -9,10 +9,13 @@ dependencies:
     - example_csv_update
 source:
   plugin: csv
-  path: example_csv_update/does_not_exist.csv
-  ids: [tid]
+  path: modules/custom/example_csv_update/does_not_exist.csv
+  ids: [counter]
   header_offset: 0
   fields:
+    -
+      name: counter
+      label: counter
     -
       name: nid
       label: nid
@@ -21,7 +24,7 @@ source:
       label: 'content langcode'
     -
       name: title
-      label: Title
+      label: title
     -
       name: body
       label: body
@@ -51,19 +54,16 @@ process:
   name:
     - plugin: get
       source: term_name
-      language:
-        - plugin: get
-          source: term_langcode
     - plugin: transliteration
-  langcode:
-    - plugin: skip_on_value
-      source: term_langcode
-      method: row
-      value: en
   content_translation_source:
     - plugin: default_value
       default_value: en
+  langcode: term_langcode
 destination:
   plugin: 'entity:taxonomy_term'
   default_bundle: 'example taxonomy'
   translations: true
+  overwrite_properties:
+    - name
+  #run entity and field validation before saving an entity
+  validate: true

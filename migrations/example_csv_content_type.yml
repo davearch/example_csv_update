@@ -6,15 +6,17 @@ migration_tags:
 dependencies:
   enforced:
     module:
-    # By adding the module that provided this migration/configuration here, it
-    # will be removed when the module is uninstalled.
     - example_csv_update
 source:
   plugin: csv
-  path: example_csv_update/does_not_exist.csv
-  ids: [nid]
+  path: modules/custom/example_csv_update/does_not_exist.csv
+  #path: example_csv_update/does_not_exist.csv
+  ids: [counter]
   header_offset: 0
   fields:
+    -
+      name: counter
+      label: counter
     -
       name: nid
       label: nid
@@ -23,7 +25,7 @@ source:
       label: 'content langcode'
     -
       name: title
-      label: Title
+      label: title
     -
       name: body
       label: body
@@ -53,49 +55,42 @@ process:
   title:
     - plugin: get
       source: title
-      language:
-        - plugin: get
-          source: content_langcode
     - plugin: transliteration
   body/value:
     - plugin: get
       source: body
-      language:
-        - plugin: get
-          source: content_langcode
     - plugin: transliteration
   body/format:
     plugin: default_value
     default_value: plain_text
-  misc/value:
+  field_misc/value:
     - plugin: get
       source: misc
-      language:
-        - plugin: get
-          source: content_langcode
     - plugin: transliteration
-  misc/format:
+  field_misc/format:
     plugin: default_value
     default_value: plain_text
-  taxonomy_reference:
+  field_taxonomy_reference:
     plugin: entity_lookup
     entity_type: taxonomy_term
     source: tid
     value_key: tid
     bundle_key: vid
     bundle: example_taxonomy
-  langcode:
-    - plugin: skip_on_value
-      source: content_langcode
-      method: row
-      value: en
   content_translation_source:
     - plugin: default_value
       default_value: en
+  langcode: content_langcode
 destination:
   plugin: 'entity:node'
   default_bundle: example_content_type
   translations: true
+  overwrite_properties:
+    - title
+    - body
+    - field_misc
+    - field_taxonomy_reference
+  validate: true
 migration_dependencies:
   required:
     - example_csv_term_migration

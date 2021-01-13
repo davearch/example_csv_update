@@ -22,5 +22,9 @@ function example_csv_update_uninstall() {
   $db = \Drupal::database();
   $db->query('delete from {migrate_map_example_csv_term_migration}');
   $db->query('delete from {migrate_map_example_csv_content_type_migration}');
+  $db->query('drop table {migrate_map_example_csv_term_migration}');
+  $db->query('drop table {migrate_map_example_csv_content_type_migration}');
+  $db->query('drop table {migrate_message_example_csv_term_migration}');
+  $db->query('drop table {migrate_message_example_csv_content_type_migration}');
   drupal_flush_all_caches();
 }
