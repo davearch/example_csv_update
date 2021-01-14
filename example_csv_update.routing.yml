@@ -1,0 +1,7 @@
+example_csv_update.form:
+  path: '/example_form'
+  defaults:
+    _title: 'Example CSV Form'
+    _form: '\Drupal\example_csv_update\Form\ExampleForm'
+  requirements:
+    _permission: 'administer content'

@@ -1,0 +1,29 @@
+uuid: 16a3cc67-32a3-424d-9383-83a29c5a7481
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_taxonomy_reference
+    - node.type.example_content_type
+    - taxonomy.vocabulary.example_taxonomy
+id: node.example_content_type.field_taxonomy_reference
+field_name: field_taxonomy_reference
+entity_type: node
+bundle: example_content_type
+label: 'taxonomy reference'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      example_taxonomy: example_taxonomy
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

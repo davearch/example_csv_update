@@ -9,6 +9,23 @@ use Drupal\migrate\Plugin\MigrateSourceInterface;
 use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\migrate\Row;
 use Drupal\migrate\MigrateSkipRowException;
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function example_csv_update_help($route_name, RouteMatchInterface $route_match)
+{
+  switch ($route_name) {
+      // Main module help for the migrate_source_ui module.
+    case 'help.page.example_csv_update':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Update Content Translations via CSV') . '</p>';
+      return $output;
+  }
+}
+
 
 /**
  * Implements hook_migrate_prepare_row().

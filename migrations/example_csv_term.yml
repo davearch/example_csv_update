@@ -9,7 +9,7 @@ dependencies:
     - example_csv_update
 source:
   plugin: csv
-  path: modules/custom/example_csv_update/does_not_exist.csv
+  path: modules/custom/example_csv_update/not_used.csv
   ids: [counter]
   header_offset: 0
   fields:

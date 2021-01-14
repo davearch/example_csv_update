@@ -1,0 +1,8 @@
+uuid: 1f0d978a-8f5c-43cd-9c5b-04f8bd466e60
+langcode: en
+status: true
+dependencies: {  }
+name: 'example taxonomy'
+vid: example_taxonomy
+description: ''
+weight: 0
