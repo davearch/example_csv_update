@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @file Example CSV Update Form.
- */
 namespace Drupal\example_csv_update\Form;
 
 use Drupal\Core\Form\FormStateInterface;

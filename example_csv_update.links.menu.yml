@@ -1,0 +1,5 @@
+example_csv_update.menu:
+  title: 'CSV Translate'
+  parent: system.admin_structure
+  enabled: 1
+  route_name: example_csv_update.form

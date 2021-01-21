@@ -32,22 +32,41 @@ function example_csv_update_help($route_name, RouteMatchInterface $route_match)
  */
 function example_csv_update_migrate_prepare_row(Row $row, MigrateSourceInterface $source, MigrationInterface $migration) {
   if ($migration->id() == 'example_csv_content_type_migration' || $migration->id() == 'example_csv_term_migration') {
+    $message = NULL;
+    $save_to_map = TRUE;
+    $type = 'status';
+
     $text_fields = ['title', 'body', 'misc', 'term_name'];
 
     $language = $row->getSourceProperty('content_langcode');
 
     if (!$language) {
-      throw new MigrateSkipRowException('No langcode found in source.', TRUE);
+      $message = 'No langcode found in source.';
+      $type = 'error';
     } elseif ($language === "en") {
-      throw new MigrateSkipRowException('English content, no translation needed.', FALSE);
+      $message = 'English content, no translation needed.';
+      $save_to_map = FALSE;
     }
 
     foreach ($text_fields as $field) {
       if (!$row->hasSourceProperty($field)) {
-        throw new MigrateSkipRowException('Missing translatable text field.', TRUE);
+        $message = 'Missing translatable text field.';
+        $type = 'error';
+        break;
       }
+
       // encode each field to avoid SQL format errors.
-      $row->setSourceProperty($field, utf8_encode($row->getSourceProperty($field)));
+      if (mb_detect_encoding($row->getSourceProperty($field)) != 'UTF-8') {
+        $row->setSourceProperty($field, utf8_encode($row->getSourceProperty($field)));
+      }
+    }
+
+    if ($message) {
+      if ($type === 'error') {
+        $pre = 'Example CSV Row No. ' . $row->get('counter') . ': ';
+        $source->messenger()->addMessage($pre . $message, $type);
+      }
+      throw new MigrateSkipRowException($message, $save_to_map);
     }
   }
 }
