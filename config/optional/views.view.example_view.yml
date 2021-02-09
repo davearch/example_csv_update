@@ -526,7 +526,7 @@ display:
         page_1: page_1
         default: '0'
       path: csv-export.csv
-      filename: ''
+      filename: '[view:id].csv'
       automatic_download: true
       store_in_public_file_directory: null
       redirect_to_display: none
@@ -544,7 +544,7 @@ display:
             strip_tags: true
             trim: true
             encoding: utf8
-            utf8_bom: '0'
+            utf8_bom: '1'
             use_serializer_encode_only: false
       row:
         type: data_field
@@ -1073,72 +1073,6 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
-        langcode_1:
-          id: langcode_1
-          table: taxonomy_term_field_data
-          field: langcode
-          relationship: field_taxonomy_reference
-          group_type: group
-          admin_label: ''
-          label: 'term langcode'
-          exclude: false
-          alter:
-            alter_text: true
-            text: '{{ langcode_1__value }}'
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: language
-          settings:
-            link_to_entity: false
-            native_language: false
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          entity_type: taxonomy_term
-          entity_field: langcode
-          plugin_id: field
       defaults:
         fields: false
         relationships: false
@@ -1458,7 +1392,7 @@ display:
           empty: false
           tokenize: false
           content:
-            value: "<ul>\r\n  <a href=\"/example_form\">Upload CSV Data</a>\r\n  |\r\n  <a href=\"/csv-export.csv?page&_format=csv\">Download CSV Data</a>\r\n</ul>"
+            value: "<ul>\r\n  <a href=\"/example_form\">Upload CSV Data</a>\r\n  |\r\n  <a href=\"/csv-export.csv?page&_format=csv\" download>Download CSV Data</a>\r\n</ul>"
             format: basic_html
           plugin_id: text
       filters:

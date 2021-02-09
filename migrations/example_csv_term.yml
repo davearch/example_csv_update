@@ -37,9 +37,6 @@ source:
     -
       name: term_name
       label: 'taxonomy reference'
-    -
-      name: term_langcode
-      label: 'term langcode'
 process:
   tid:
     - plugin: entity_lookup
@@ -54,10 +51,16 @@ process:
   name:
     - plugin: get
       source: term_name
+    - plugin: field_has_changed
+    - plugin: skip_on_empty
+      method: row
+      message: 'term name unchanged, skipping'
   content_translation_source:
     - plugin: default_value
       default_value: en
-  langcode: term_langcode
+  langcode:
+    - plugin: default_value
+      default_value: es
 destination:
   plugin: 'entity:taxonomy_term'
   default_bundle: 'example taxonomy'

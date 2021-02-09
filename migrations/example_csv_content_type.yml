@@ -37,9 +37,6 @@ source:
     -
       name: term_name
       label: 'taxonomy reference'
-    -
-      name: term_langcode
-      label: 'term langcode'
 process:
   nid:
     - plugin: entity_lookup
@@ -52,17 +49,38 @@ process:
       method: row
       message: 'nid not found.'
   title:
-    - plugin: get
+    -
+      plugin: get
       source: title
+    -
+      plugin: field_has_changed
+    -
+      plugin: skip_on_empty
+      method: process
+      message: 'title field unchanged, skipping'
   body/value:
-    - plugin: get
+    -
+      plugin: get
       source: body
+    -
+      plugin: field_has_changed
+    -
+      plugin: skip_on_empty
+      method: process
+      message: 'body field unchanged, skipping'
   body/format:
     plugin: default_value
     default_value: plain_text
   field_misc/value:
-    - plugin: get
+    -
+      plugin: get
       source: misc
+    -
+      plugin: field_has_changed
+    -
+      plugin: skip_on_empty
+      method: process
+      message: 'misc field unchanged, skipping'
   field_misc/format:
     plugin: default_value
     default_value: plain_text
